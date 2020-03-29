@@ -28,7 +28,7 @@ def random_vector():
     """ Returns random R^4 vector """
     v = []
     for _ in range(4):
-        v.append(random.uniform(-2, 2))
+        v.append(random.gauss(0, 0.001))
     return v
 
 
@@ -46,7 +46,7 @@ def hill_climbing(func, t):
 
     start = time()
     while time() - start < t:
-        time_interval = t / 1000
+        time_interval = 0.01
         inner_start = time()
         while time() - start < t and time() - inner_start < time_interval:
             r = tweak(s)
@@ -64,9 +64,9 @@ if __name__ == '__main__':
         b = int(sys.argv[2])
         if b == 0:
             result = hill_climbing(h, t)
-            print(result, h(result))
+            print(*result, h(result))
         else:
             result = hill_climbing(g, t)
-            print(result, g(result))
+            print(*result, g(result))
     else:
         print("main [time in s] [if 0 minimize h(X) else minimize g(x)]")
