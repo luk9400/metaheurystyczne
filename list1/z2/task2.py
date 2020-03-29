@@ -5,7 +5,7 @@
 from collections import deque
 from time import time
 from itertools import permutations
-from math import factorial
+from copy import deepcopy
 import random
 import math
 import sys
@@ -52,7 +52,7 @@ def quality(s, costs):
 
 def tabu_search(t, size, costs):
     l = 1000
-    n = 10000
+    n = size**2
 
     s = greedy_candidate(size, costs)
     best = s
@@ -63,10 +63,10 @@ def tabu_search(t, size, costs):
     while time() - start < t:
         if len(L) > l:
             L.popleft()
-        r = tweak(s)
+        r = tweak(deepcopy(s))
 
         for _ in range(n - 1):
-            w = tweak(s)
+            w = tweak(deepcopy(s))
             if w not in L and (quality(w, costs) < quality(r, costs) or r in L):
                 r = w
         if r not in L:
