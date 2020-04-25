@@ -3,8 +3,7 @@
 
 from math import cos, pi, sqrt, exp
 from time import time
-import random
-import sys
+from random import random, gauss
 
 
 def salomon(x):
@@ -15,7 +14,7 @@ def salomon(x):
 
 
 def tweak(x):
-    return [i * random.gauss(1, 0.1) for i in x]
+    return [i * gauss(1, 0.1) for i in x]
 
 
 def decrease(t):
@@ -29,16 +28,14 @@ def simulated_annealing(t, x):
     best = s
 
     start = time()
-    while time() - start < t or temp <= 0:
+    while time() - start < t and temp > 0:
         r = tweak(s)
-        if salomon(r) < salomon(s) or random.random() < exp(
-            (salomon(r) - salomon(s)) / temp
-        ):
+        if salomon(r) < salomon(s) or random() < exp((salomon(s) - salomon(r)) / temp):
             s = r
-        decrease(temp)
-        if salomon(s) < salomon(best):
+        temp = decrease(temp)
+        if salomon(s) <= salomon(best):
             best = s
-    return s
+    return best
 
 
 if __name__ == "__main__":

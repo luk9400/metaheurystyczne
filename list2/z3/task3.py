@@ -89,7 +89,6 @@ def simulated_annealing(t, n, m, grid):
 
     x, y = find_position(n, m, grid)
     s = initial_candidate(x, y, grid)
-    print(quality(s, x, y, grid))
     best = s
 
     start = time()

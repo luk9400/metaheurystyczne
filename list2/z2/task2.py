@@ -138,11 +138,11 @@ def tweak(M):
 
 
 def decrease(t):
-    return t * 0.9
+    return t * 0.99
 
 
 def simulated_annealing(M, n, m, k, t):
-    temp = 10 ** 6
+    temp = 10 ** 8
 
     s = initial_matrix(n, m, k)
     best = s
