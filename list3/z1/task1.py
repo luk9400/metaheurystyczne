@@ -2,7 +2,7 @@
 
 from time import time
 from copy import deepcopy
-from random import gauss, choice, random, randint, shuffle
+from random import gauss, choice, random
 from math import log
 
 
@@ -16,10 +16,8 @@ def tournament(population, eps):
     t = 4
 
     best = choice(P)
-    P.remove(best)
     for _ in range(2, t):
         nxt = choice(P)
-        P.remove(nxt)
         if yang(nxt, eps) < yang(best, eps):
             best = nxt
     return best
