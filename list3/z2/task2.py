@@ -80,9 +80,9 @@ def genetic_algorithm(t, n, initial_candidates, multiset, dictionary):
                 best = p
                 last_best = time()
 
-        allowed.sort(key=lambda x : _fitness(x), reverse=True)
+        allowed.sort(key=lambda x: _fitness(x), reverse=True)
 
-        Q = allowed[:popsize // 2]
+        Q = allowed[: popsize // 2]
         while len(Q) < popsize:
             p_a = _tournament(deepcopy(allowed))
             p_b = _tournament(deepcopy(allowed))
@@ -90,7 +90,6 @@ def genetic_algorithm(t, n, initial_candidates, multiset, dictionary):
             Q.append(mutate(c_a, multiset, dictionary))
             Q.append(mutate(c_b, multiset, dictionary))
         P = Q[:popsize]
-        print(P)
 
         if time() - last_best > log(t):
             break
@@ -116,7 +115,7 @@ def main():
         content = f.readlines()
         dictionary = {}
         for word in content:
-            dictionary[word[:len(word) - 1]] = ""
+            dictionary[word[: len(word) - 1]] = ""
 
     result, qual = genetic_algorithm(t, n, initial_candidates, multiset, dictionary)
     print(qual)
