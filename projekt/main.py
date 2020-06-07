@@ -66,28 +66,13 @@ def initial_candidate(x, y, grid):
     return path
 
 
-def tweak1(s):
+def tweak(s):
     i = randrange(len(s))
     j = randrange(i, len(s))
-    return s[: i + 1] + s[j:i:-1] + s[j + 1 :]
-
-
-def tweak2(s):
-    i = randrange(len(s))
-    j = randrange(len(s))
-    s[i], s[j] = s[j], s[i]
-    return s
-
-
-def tweak3(s):
-    i = randrange(len(s))
-    rand = choices(["U", "R", "D", "L"], k=randint(1, 4))
-    return s[: i + 1] + rand + s[i:]
-
-
-def tweak(s):
-    func = choice([tweak1, tweak2, tweak3])
-    return func(s)
+    if 0.8 > random():
+        return s[: i + 1] + s[j:i:-1] + s[j + 1 :]
+    else:
+        return s[: i + 1] + choices(["U", "R", "D", "L"], k=j - i) + s[j + 1 :]
 
 
 def quality(s, x, y, grid, maxsize):
@@ -120,7 +105,7 @@ def quality(s, x, y, grid, maxsize):
         if grid[new_x][new_y] != 1:
             x, y = new_x, new_y
 
-    return len(s)
+    return maxsize
 
 
 def decrease(t):
@@ -135,7 +120,6 @@ def simulated_annealing(t, n, m, grid, initial_solution):
     _quality = lambda s: quality(s, x, y, grid, maxsize)
 
     s = initial_candidate(x, y, grid)
-    # s = initial_solution
     best = s
     last_best = None
 
@@ -154,7 +138,9 @@ def simulated_annealing(t, n, m, grid, initial_solution):
             best = s[:quality_s]
             last_best = time()
 
-        if last_best != None and time() - last_best > min(log(t), log(n * m / 10)):
+        if last_best != None and time() - last_best > min(
+            0.5 * log(t), 0.5 * log(n * m / 10)
+        ):
             break
 
     return best, _quality(best)
